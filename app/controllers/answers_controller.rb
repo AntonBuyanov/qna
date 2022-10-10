@@ -20,6 +20,15 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.author?(@answer)
+      @answer.destroy
+      redirect_to questions_path, notice: 'Your answer successfully delete.'
+    else
+      redirect_to @answer, notice: 'Only the author can delete this question'
+    end
+  end
+
   private
 
   def find_question
@@ -27,7 +36,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :correct)
+    params.require(:answer).permit(:body, :correct).merge(author: current_user)
   end
 
   def load_answer
