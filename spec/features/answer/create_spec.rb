@@ -7,9 +7,9 @@ feature 'User can create answer while on the page question', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author_id: user.id) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
@@ -17,15 +17,14 @@ feature 'User can create answer while on the page question', %q{
     end
 
     scenario 'create answer' do
-      fill_in 'Body', with: 'Test answer'
+      fill_in 'Your answer', with: 'Test answer'
       click_on 'Create answer'
 
-      expect(page).to have_content 'Your answer successfully created.'
+      expect(page).to have_content 'Test answer'
     end
 
     scenario 'create answer with errors' do
       click_on 'Create answer'
-      save_and_open_page
       expect(page).to have_content "Body can't be blank"
     end
   end

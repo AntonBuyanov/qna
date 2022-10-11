@@ -1,2 +1,5 @@
-p.answer = answer.body
-p= link_to 'Delete answer', answer, method: :delete
+- if answer.persisted?
+  tr
+    td
+      p= answer.body
+    td = link_to 'Delete answer', answer, remote: true, method: :delete

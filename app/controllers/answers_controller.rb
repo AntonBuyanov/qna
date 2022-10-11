@@ -11,21 +11,16 @@ class AnswersController < ApplicationController
   def show ;end
 
   def create
-    @answer = @question.answers.build(answer_params)
-
-    if @answer.save
-      redirect_to @answer, notice: 'Your answer successfully created.'
-    else
-      render :new
-    end
+    @answer = @question.answers.create(answer_params)
   end
 
   def destroy
+    @question = @answer.question
     if current_user.author?(@answer)
       @answer.destroy
-      redirect_to questions_path, notice: 'Your answer successfully delete.'
+      redirect_to @question, notice: 'Your answer successfully delete.'
     else
-      redirect_to @answer, notice: 'Only the author can delete this question'
+      redirect_to @question, notice: 'Only the author can delete this question'
     end
   end
 
