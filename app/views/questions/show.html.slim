@@ -1,7 +1,6 @@
-= render 'shared/errors', resource: @question
-h1= @question.title
-p= @question.body
-p= link_to 'Delete question', @question, method: :delete
+.question-errors
+  = render 'shared/errors', resource: @question
+= render @question
 
 .answers
   = render @question.answers

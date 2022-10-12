@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
     before { login(user) }
     it 'deletes the answer' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
     end
   end
 

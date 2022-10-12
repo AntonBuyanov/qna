@@ -9,3 +9,4 @@ require('jquery')
 
 import "bootstrap"
 import "../utilities/answers"
+import "../utilities/question"
