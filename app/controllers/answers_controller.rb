@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: :show
   before_action :find_question, only: %i[new create]
-  before_action :load_answer, only: %i[show destroy]
+  before_action :load_answer, only: %i[show destroy update]
 
   def new
     @answer = @question.answers.new
@@ -12,6 +12,11 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params)
+  end
+
+  def update
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
@@ -31,7 +36,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :correct).merge(author: current_user)
+    params.require(:answer).permit(:body).merge(author: current_user)
   end
 
   def load_answer

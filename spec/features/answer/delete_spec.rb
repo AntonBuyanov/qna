@@ -22,15 +22,12 @@ feature 'User can only delete his answers', %q{
   scenario 'Authenticated user delete not your own answer' do
     sign_in(user_not_author)
     visit question_path(question)
-    click_on 'Delete answer'
 
-    expect(page).to have_content 'Only the author can delete this question'
+    expect(page).to_not have_link 'Delete answer'
   end
 
   scenario 'Unauthenticated user delete question' do
     visit question_path(question)
-    click_on 'Delete answer'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_link 'Delete answer'
   end
 end
