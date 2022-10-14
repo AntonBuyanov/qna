@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: :show
   before_action :find_question, only: %i[new create]
-  before_action :load_answer, only: %i[show destroy update]
+  before_action :load_answer, only: %i[show destroy update set_best]
 
   def new
     @answer = @question.answers.new
@@ -20,6 +20,12 @@ class AnswersController < ApplicationController
     end
 
     @question = @answer.question
+  end
+
+  def set_best
+    @answer.mark_as_best if current_user.author?(@answer.question)
+    @question = @answer.question
+    @question.save
   end
 
   def destroy
