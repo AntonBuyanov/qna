@@ -6,8 +6,8 @@ feature 'User can view the question and the answers to it', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 3, question: question) }
+  given!(:question) { create(:question, author_id: user.id) }
+  given!(:answers) { create_list(:answer, 3, question: question, author_id: user.id) }
 
   describe 'Authenticated user' do
     scenario 'view the list of question and answers to it' do

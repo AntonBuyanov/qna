@@ -1,11 +1,19 @@
-= render 'shared/errors', resource: @question
-h1= @question.title
-p= @question.body
-p= link_to 'Delete question', @question, method: :delete
+.question-errors
+  = render 'shared/errors', resource: @question
+= render @question
 
-= render @question.answers
+.answers
+    h3 Best answer
+    .best-answer
+      = render @question.best_answer if @question.best_answer.present?
+    h3 Other answers
+    .other-answers
+      = render @other_answers
 
-= form_with model: [@question, @answer], local: true do |f|
-  = f.label :body, 'Body'
+.answer-errors
+  = render 'shared/errors', resource: @answer
+
+= form_with model: [@question, @answer], class: 'new-answer', local: false do |f|
+  b= f.label :body, 'Your answer'
   = f.text_area :body
   = f.submit 'Create answer'

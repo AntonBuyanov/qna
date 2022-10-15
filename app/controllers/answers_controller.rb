@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: :show
   before_action :find_question, only: %i[new create]
-  before_action :load_answer, only: %i[show destroy]
+  before_action :load_answer, only: %i[show destroy update set_best]
 
   def new
     @answer = @question.answers.new
@@ -11,22 +11,26 @@ class AnswersController < ApplicationController
   def show ;end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.create(answer_params)
+  end
 
-    if @answer.save
-      redirect_to @answer, notice: 'Your answer successfully created.'
-    else
-      render :new
+  def update
+    if current_user.author?(@answer)
+      @answer.update(answer_params)
     end
+
+    @question = @answer.question
+  end
+
+  def set_best
+    @answer.mark_as_best if current_user.author?(@answer.question)
+    @question = @answer.question
+    @question.save
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-      redirect_to questions_path, notice: 'Your answer successfully delete.'
-    else
-      redirect_to @answer, notice: 'Only the author can delete this question'
-    end
+    @answer.destroy if current_user.author?(@answer)
+    @question = @answer.question
   end
 
   private
@@ -36,7 +40,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :correct).merge(author: current_user)
+    params.require(:answer).permit(:body).merge(author: current_user)
   end
 
   def load_answer

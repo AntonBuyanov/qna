@@ -1,2 +1,15 @@
-p.answer = answer.body
-p= link_to 'Delete answer', answer, method: :delete
+div id="answer-#{answer.id}"
+  tr
+    td
+      p = answer.body
+      - if user_signed_in? && current_user.author?(answer)
+        td = link_to 'Delete answer', answer, method: :delete, remote: true
+        td  |
+        td = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        td= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+          p= f.label :body, 'Your answer'
+          p= f.text_area :body
+          p= f.submit 'Save'
+        td  |
+      - if user_signed_in? && current_user.author?(answer.question) && answer.question.best_answer_id != answer.id
+        td = link_to 'Best answer', set_best_answer_path(answer), method: :patch, remote: true

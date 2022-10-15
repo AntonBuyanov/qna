@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answers = @question.answers
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
@@ -18,7 +20,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
@@ -28,10 +30,8 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    if current_user.author?(@question)
+      @question.update(question_params)
     end
   end
 
