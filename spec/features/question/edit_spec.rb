@@ -12,7 +12,6 @@ feature 'User can edit his question', %q{
 
   scenario 'Unauthenticated can not edit question' do
     visit question_path(question)
-
     expect(page).to_not have_link 'Edit'
   end
 
