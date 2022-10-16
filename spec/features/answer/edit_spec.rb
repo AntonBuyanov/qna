@@ -25,13 +25,18 @@ feature 'User can edit his answer', %q{
 
       within '.answers' do
         fill_in 'Your answer', with: 'edited answer'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
+
     scenario 'edits his answer with errors' do
       sign_in(user)
       visit question_path(question)
@@ -47,6 +52,7 @@ feature 'User can edit his answer', %q{
       end
 
     end
+
     scenario "tries to edit other user's question" do
       sign_in(user_not_author)
       visit question_path(question)
