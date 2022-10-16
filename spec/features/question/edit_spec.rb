@@ -24,11 +24,15 @@ feature 'User can edit his question', %q{
       within '.question' do
         fill_in 'Title', with: 'Test question'
         fill_in 'Body', with: 'text text text'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
         expect(page).to_not have_content question.body
         expect(page).to have_content 'Test question'
         expect(page).to_not have_selector 'textarea'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
 
