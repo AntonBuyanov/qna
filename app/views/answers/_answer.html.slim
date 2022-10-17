@@ -18,7 +18,7 @@ div id="answer-#{answer.id}"
             = f.text_area :body
           p
             = f.label :files
-            = f.file_field :files, multiple: true
+            = f.file_field :files, multiple: true, direct_upload: true
           p= f.submit 'Save'
         td  |
       - if user_signed_in? && current_user.author?(answer.question) && answer.question.best_answer_id != answer.id
