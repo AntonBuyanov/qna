@@ -16,7 +16,7 @@ feature 'User can edit his question', %q{
   end
 
   describe 'Authenticated user', js: :true do
-    scenario 'edits his question' do
+    scenario 'edits his question with attach file' do
       sign_in(user)
       visit question_path(question)
       click_on 'Edit question'
@@ -33,6 +33,22 @@ feature 'User can edit his question', %q{
         expect(page).to_not have_selector 'textarea'
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'remove file his question' do
+      sign_in(user)
+      visit question_path(question)
+      click_on 'Edit question'
+
+      within '.question' do
+        attach_file 'File', ["#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end
+
+      within '.question' do
+        click_on 'Delete file'
+        expect(page).to_not have_link 'spec_helper.rb'
       end
     end
 
