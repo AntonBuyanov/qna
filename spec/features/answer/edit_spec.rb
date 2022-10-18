@@ -17,7 +17,7 @@ feature 'User can edit his answer', %q{
     expect(page).to_not have_link 'Edit'
   end
 
-  describe 'Authenticated user', js: :true do
+  describe 'Authenticated user', js: true do
     scenario 'edits his answer' do
       sign_in(user)
       visit question_path(question)
