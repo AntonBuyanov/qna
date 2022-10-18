@@ -20,16 +20,11 @@ feature 'User can choose the best answer to the question', %q{
     scenario 'selects the best answer' do
       click_on 'Best answer'
 
-      within '.other-answers' do
-        expect(page).to_not have_content answer.body
-      end
-
       within '.best-answer' do
         expect(page).to have_content answer.body
       end
     end
   end
-
 
   describe 'Unauthenticated user' do
     scenario 'selects the best answer' do
