@@ -11,3 +11,8 @@
     = link_to 'Delete question', question, class: 'btn btn-outline-primary', method: :delete
     = link_to 'Edit question', '#', class: 'edit-question-link btn btn-outline-primary', data: { question_id: question.id }
     = render 'edit_form', question: question
+
+    p Links:
+    ul
+      - question.links.each do |link|
+        li= link_to link.name, link.url

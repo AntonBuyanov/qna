@@ -20,5 +20,7 @@
       p
         = l.label :url
         = l.text_field :url
+    div class="links"
+      = link_to_add_association 'add link', f, :links
 
   p= f.submit 'Ask'

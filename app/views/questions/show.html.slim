@@ -10,12 +10,6 @@
     .other-answers
       = render @other_answers
 
-.links
-  p Links:
-  ul
-    - @question.links.each do |link|
-      li= link_to link.name, link.url
-
 .answer-errors
   = render 'shared/errors', resource: @answer
 
@@ -34,4 +28,6 @@
       p
         = l.label :url
         = l.text_field :url
+    div class="links"
+      = link_to_add_association 'add link', f, :links
   = f.submit 'Create answer'
