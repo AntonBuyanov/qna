@@ -8,4 +8,9 @@ p= form_with model: question, local: false, class: 'hidden', html: { id: "edit-q
   p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+
+    = f.fields_for :links do |l|
+      = render 'links/link_fields', f: l
+    .links
+      = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
   p= f.submit 'Save'
