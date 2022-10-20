@@ -9,6 +9,7 @@ feature 'User can edit his question', %q{
   given(:user) { create(:user) }
   given!(:user_not_author) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
+  given(:link) { create(:link, linkable: question) }
 
   scenario 'Unauthenticated can not edit question' do
     visit question_path(question)
@@ -75,6 +76,22 @@ feature 'User can edit his question', %q{
 
       within '.question' do
         expect(page).to_not have_link 'Edit question'
+      end
+    end
+
+    scenario 'add link to his question' do
+      sign_in(user)
+      visit question_path(question)
+
+      within('.question') do
+        click_on 'Edit question'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: link.name
+        fill_in 'Url', with: link.url
+        click_on 'Save'
+
+        expect(page).to have_link link.name
       end
     end
   end

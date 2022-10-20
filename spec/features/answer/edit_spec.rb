@@ -10,6 +10,7 @@ feature 'User can edit his answer', %q{
   given!(:user_not_author) { create(:user) }
   given!(:question) { create(:question, author_id: user.id) }
   given!(:answer) { create(:answer, question: question, author_id: user.id) }
+  given(:link) { create(:link, linkable: answer) }
 
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
@@ -29,7 +30,6 @@ feature 'User can edit his answer', %q{
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
-        expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'
         expect(page).to have_link 'rails_helper.rb'
@@ -75,6 +75,22 @@ feature 'User can edit his answer', %q{
 
       within '.answers' do
         expect(page).to_not have_link 'Edit'
+      end
+    end
+
+    scenario 'add link to his answer' do
+      sign_in(user)
+      visit question_path(question)
+
+      within("#answer-#{answer.id}") do
+        click_on 'Edit'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: link.name
+        fill_in 'Url', with: link.url
+        click_on 'Save'
+
+        expect(page).to have_link link.name
       end
     end
   end
