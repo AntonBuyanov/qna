@@ -1,5 +1,10 @@
 .question
   h3= link_to question.title, question
+
+  p Badge:
+  - if question.badge.present?
+    = question.badge.name
+
   - if question.files.attached?
     - question.files.each do |file|
       div class = "file-#{file.id}"
