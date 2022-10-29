@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  get 'links/destroy'
   devise_for :users
+
   resources :questions do
     resources :answers, shallow: true do
       patch :set_best, on: :member
@@ -7,6 +9,8 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+  resources :links, only: :destroy
+  resources :badges, only: :index
 
   root to: 'questions#index'
 end

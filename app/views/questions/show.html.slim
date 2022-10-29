@@ -19,4 +19,9 @@
   p
     = f.label :files
     = f.file_field :files, multiple: true
+  p Links:
+  #links
+    = f.fields_for :links do |l|
+    .links
+      = link_to_add_association 'add links', f, :links, partial: 'links/link_fields'
   = f.submit 'Create answer'

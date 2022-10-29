@@ -40,7 +40,8 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: []).merge(author: current_user)
+    params.require(:answer).permit(:body, files: [],
+                                   links_attributes: [:id, :name, :url, :_destroy]).merge(author: current_user)
   end
 
   def load_answer
