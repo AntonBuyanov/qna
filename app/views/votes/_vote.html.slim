@@ -1,0 +1,7 @@
+div id="#{resource.class.name.downcase}-rating-#{resource.id}"
+  = resource.rating
+- if current_user && !current_user.author?(resource)
+  .vote
+    = link_to '+', polymorphic_path(resource, action: :like), method: :patch, remote: true, data: { type: :json }
+    = link_to '-', polymorphic_path(resource, action: :dislike), method: :patch, remote: true, data: { type: :json }
+    = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel), method: :delete, remote: true, data: { type: :json }

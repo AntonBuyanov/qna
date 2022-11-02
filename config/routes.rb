@@ -2,8 +2,16 @@ Rails.application.routes.draw do
   get 'links/destroy'
   devise_for :users
 
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :voted do
+    member do
+      patch :like
+      patch :dislike
+      delete :cancel
+    end
+  end
+
+  resources :questions, concerns: :voted  do
+    resources :answers, concerns: :voted, shallow: true do
       patch :set_best, on: :member
     end
   end
