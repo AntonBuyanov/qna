@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_31_070846) do
+ActiveRecord::Schema.define(version: 2022_11_04_083225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,7 +113,6 @@ ActiveRecord::Schema.define(version: 2022_10_31_070846) do
   add_foreign_key "answers", "users", column: "author_id"
   add_foreign_key "badges", "questions"
   add_foreign_key "badges", "users"
-  add_foreign_key "questions", "answers", column: "best_answer_id"
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "votes", "users"
 end
