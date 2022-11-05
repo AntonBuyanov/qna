@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def mark_as_best
-    question.badge.user = author
+    question.badge.user = author if question.badge
     question.update(best_answer_id: self.id)
   end
 end
