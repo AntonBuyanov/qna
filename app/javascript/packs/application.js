@@ -11,3 +11,4 @@ require("@nathanvda/cocoon")
 import "bootstrap"
 import "../utilities/answers"
 import "../utilities/question"
+import "../utilities/vote"

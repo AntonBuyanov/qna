@@ -1,6 +1,9 @@
 div id="answer-#{answer.id}"
   p= answer.body
 
+  p Rating:
+  = render 'votes/vote', resource: answer
+
   - if answer.files.attached?
     - answer.files.each do |file|
       div class = "file-#{file.id}"
