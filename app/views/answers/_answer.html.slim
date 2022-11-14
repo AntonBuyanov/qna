@@ -1,32 +1,33 @@
-div class="card"
-  div class="card-body"
-    div id="answer-#{answer.id}"
-      p= answer.body
+div id="answer-#{answer.id}"
+  p= answer.body
 
-      p Rating:
-      = render 'votes/vote', resource: answer
+  p Rating:
+  = render 'votes/vote', resource: answer
 
-      - if answer.files.attached?
-        - answer.files.each do |file|
-          div class = "file-#{file.id}"
-            = link_to file.filename.to_s, url_for(file)
-            - if current_user.author?(answer)
-              p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
+  p Comments:
+  = render 'comments/comments', resource: answer
 
-      - if user_signed_in? && current_user.author?(answer)
-        = link_to 'Delete answer', answer, class: 'btn btn-outline-primary', method: :delete, remote: true
-        = link_to 'Edit', '#', class: 'edit-answer-links btn btn-outline-primary', data: { answer_id: answer.id }
-        = render 'answers/edit_form', answer: answer
-      - if user_signed_in? && current_user.author?(answer.question) && answer.question.best_answer_id != answer.id
-        = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-primary', method: :patch, remote: true
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      div class = "file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        - if current_user.author?(answer)
+          p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-      .links
-      p Links:
-      ul
-        - answer.links.each do |link|
-          div id="link-#{link.id}"
-            - if link.gist?
-              div class="gist" data-src="#{link.url+ ".json"}"
-            - else
-              = link_to link.name, link.url
-            = link_to 'Delete link', link_path(link), method: :delete, remote: true
+  - if user_signed_in? && current_user.author?(answer)
+    = link_to 'Delete answer', answer, class: 'btn btn-outline-primary', method: :delete, remote: true
+    = link_to 'Edit', '#', class: 'edit-answer-links btn btn-outline-primary', data: { answer_id: answer.id }
+    = render 'answers/edit_form', answer: answer
+  - if user_signed_in? && current_user.author?(answer.question) && answer.question.best_answer_id != answer.id
+    = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-primary', method: :patch, remote: true
+
+  .links
+  p Links:
+  ul
+    - answer.links.each do |link|
+      div id="link-#{link.id}"
+        - if link.gist?
+          div class="gist" data-src="#{link.url+ ".json"}"
+        - else
+          = link_to link.name, link.url
+        = link_to 'Delete link', link_path(link), method: :delete, remote: true

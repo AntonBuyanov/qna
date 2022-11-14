@@ -1,33 +1,35 @@
 .question
-  div class="card"
-    div class="card-body"
-      h3= link_to question.title, question
+  h3= link_to question.title, question
 
-      p Badge:
-      - if question.badge.present?
-        = question.badge.name
+  p Badge:
+  - if question.badge.present?
+    = question.badge.name
 
-      p Rating:
-      = render 'votes/vote', resource: question
+  p Rating:
+  = render 'votes/vote', resource: question
 
-      - if question.files.attached?
-        - question.files.each do |file|
-          div class = "file-#{file.id}"
-            p= link_to file.filename.to_s, url_for(file)
-            - if current_user&.author?(question)
-              p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
+  .question-comments
+    p Comments:
+    = render 'comments/comments', resource: question
 
-      - if user_signed_in? && current_user.author?(question)
-        = link_to 'Delete question', question, class: 'btn btn-outline-primary', method: :delete
-        = link_to 'Edit question', '#', class: 'edit-question-links btn btn-outline-primary', data: { question_id: question.id }
-        = render 'edit_form', question: question
+  - if question.files.attached?
+    - question.files.each do |file|
+      div class = "file-#{file.id}"
+        p= link_to file.filename.to_s, url_for(file)
+        - if current_user&.author?(question)
+          p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-      p Links:
-      ul
-        - question.links.each do |link|
-          div id="link-#{link.id}"
-            - if link.gist?
-              div class="gist" data-src="#{link.url+ ".json"}"
-            - else
-              = link_to link.name, link.url
-            = link_to 'Delete link', link_path(link), method: :delete, remote: true
+  - if user_signed_in? && current_user.author?(question)
+    = link_to 'Delete question', question, class: 'btn btn-outline-primary', method: :delete
+    = link_to 'Edit question', '#', class: 'edit-question-links btn btn-outline-primary', data: { question_id: question.id }
+    = render 'edit_form', question: question
+
+  p Links:
+  ul
+    - question.links.each do |link|
+      div id="link-#{link.id}"
+        - if link.gist?
+          div class="gist" data-src="#{link.url+ ".json"}"
+        - else
+          = link_to link.name, link.url
+        = link_to 'Delete link', link_path(link), method: :delete, remote: true

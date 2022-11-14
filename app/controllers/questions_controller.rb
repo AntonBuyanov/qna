@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
+  include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
@@ -68,7 +69,7 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.with_attached_files.find(params[:id])
     gon.question_id = @question.id
-    gon.user_id = current_user.id
+    gon.user_id = current_user.id if current_user
   end
 
   def question_params
