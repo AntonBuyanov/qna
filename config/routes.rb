@@ -10,8 +10,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :voted  do
-    resources :answers, concerns: :voted, shallow: true do
+  concern :commented do
+    member do
+      post :comment
+    end
+  end
+
+  resources :questions, concerns: %i[voted commented] do
+    resources :answers, concerns: %i[voted commented], shallow: true do
       patch :set_best, on: :member
     end
   end
@@ -21,4 +27,6 @@ Rails.application.routes.draw do
   resources :badges, only: :index
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end

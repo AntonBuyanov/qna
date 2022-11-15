@@ -4,6 +4,9 @@ div id="answer-#{answer.id}"
   p Rating:
   = render 'votes/vote', resource: answer
 
+  p Comments:
+  = render 'comments/comments', resource: answer
+
   - if answer.files.attached?
     - answer.files.each do |file|
       div class = "file-#{file.id}"
@@ -18,13 +21,13 @@ div id="answer-#{answer.id}"
   - if user_signed_in? && current_user.author?(answer.question) && answer.question.best_answer_id != answer.id
     = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-primary', method: :patch, remote: true
 
-    .links
-    p Links:
-    ul
-      - answer.links.each do |link|
-        div id="link-#{link.id}"
-          - if link.gist?
-            div class="gist" data-src="#{link.url+ ".json"}"
-          - else
-            = link_to link.name, link.url
-          = link_to 'Delete link', link_path(link), method: :delete, remote: true
+  .links
+  p Links:
+  ul
+    - answer.links.each do |link|
+      div id="link-#{link.id}"
+        - if link.gist?
+          div class="gist" data-src="#{link.url+ ".json"}"
+        - else
+          = link_to link.name, link.url
+        = link_to 'Delete link', link_path(link), method: :delete, remote: true

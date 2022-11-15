@@ -7,6 +7,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require('jquery')
 require("@nathanvda/cocoon")
+require("channels")
 
 import "bootstrap"
 import "../utilities/answers"

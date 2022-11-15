@@ -3,12 +3,12 @@
 = render @question
 
 .answers
-    h3 Best answer
-    .best-answer
-      = render @question.best_answer if @question.best_answer.present?
-    h3 Other answers
-    .other-answers
-      = render @other_answers
+  h3 Best answer
+  .best-answer
+    = render @question.best_answer if @question.best_answer
+  h3 Other answers
+  .other-answers
+    = render @other_answers
 
 .answer-errors
   = render 'shared/errors', resource: @answer

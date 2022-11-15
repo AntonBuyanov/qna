@@ -8,6 +8,10 @@
   p Rating:
   = render 'votes/vote', resource: question
 
+  .question-comments
+    p Comments:
+    = render 'comments/comments', resource: question
+
   - if question.files.attached?
     - question.files.each do |file|
       div class = "file-#{file.id}"
@@ -20,12 +24,12 @@
     = link_to 'Edit question', '#', class: 'edit-question-links btn btn-outline-primary', data: { question_id: question.id }
     = render 'edit_form', question: question
 
-    p Links:
-    ul
-      - question.links.each do |link|
-        div id="link-#{link.id}"
-          - if link.gist?
-            div class="gist" data-src="#{link.url+ ".json"}"
-          - else
-            = link_to link.name, link.url
-          = link_to 'Delete link', link_path(link), method: :delete, remote: true
+  p Links:
+  ul
+    - question.links.each do |link|
+      div id="link-#{link.id}"
+        - if link.gist?
+          div class="gist" data-src="#{link.url+ ".json"}"
+        - else
+          = link_to link.name, link.url
+        = link_to 'Delete link', link_path(link), method: :delete, remote: true

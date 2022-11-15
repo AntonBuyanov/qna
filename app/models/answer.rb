@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include Votable
+  include Commentable
 
   has_many_attached :files, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
@@ -12,7 +13,7 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def mark_as_best
-    question.badge.user = author
+    question.badge.user = author if question.badge
     question.update(best_answer_id: self.id)
   end
 end
