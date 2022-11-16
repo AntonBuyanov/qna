@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'links/destroy'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :voted do
     member do
