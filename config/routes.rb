@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :user do
+    post '/send_email', to: 'send_email#create'
+  end
+
   resources :questions, concerns: %i[voted commented] do
     resources :answers, concerns: %i[voted commented], shallow: true do
       patch :set_best, on: :member
