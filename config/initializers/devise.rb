@@ -128,7 +128,7 @@ Devise.setup do |config|
   # Set up a pepper to generate the hashed password.
   # config.pepper = '27c21a8d88c7c6a671c90aec54b50e114bd85564b5897433c6da4880e0e2773f89954c4e20379ae45501a70ab79221e57e4e5c4a1074034da6c2a9793ca72c41'
 
-  # Send a notification to the original email when the user's email is changed.
+  # Send a notification to the original email when the user's send_email is changed.
   # config.send_email_changed_notification = false
 
   # Send a notification email when the user's password is changed.
@@ -271,7 +271,15 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  config.omniauth :github,
+                  Rails.application.credentials[Rails.env.to_sym][:github][:app_id],
+                  Rails.application.credentials[Rails.env.to_sym][:github][:app_secret],
+                  scope: 'user:send_email, read:user'
+
+  config.omniauth :vkontakte,
+                  Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_id],
+                  Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret],
+                  client_options: { auth_scheme: :request_body }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

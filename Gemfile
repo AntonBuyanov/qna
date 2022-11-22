@@ -18,12 +18,17 @@ gem 'bootstrap'
 gem 'aws-sdk-s3', require: false
 gem 'cocoon'
 gem 'gon'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0.0'
   gem 'factory_bot_rails'
+  gem 'capybara-email'
 end
 
 group :development do
@@ -35,6 +40,7 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'letter_opener'
 end
 
 group :test do
