@@ -3,7 +3,7 @@ class LinksController < ApplicationController
   before_action :find_link
 
   def destroy
-    @link.destroy if current_user.author?(@link.linkable)
+    @link.destroy
   end
 
   private
