@@ -16,7 +16,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     if @user&.persisted?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
-    elsif @user.nil?
+    elsif auth && auth[:uid]
       session[:auth_provider] = auth[:provider]
       session[:auth_uid] = auth[:uid]&.to_s
 

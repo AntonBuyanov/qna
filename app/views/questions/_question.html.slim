@@ -16,11 +16,12 @@
     - question.files.each do |file|
       div class = "file-#{file.id}"
         p= link_to file.filename.to_s, url_for(file)
-        - if current_user&.author?(question)
+        - if can?(:destroy, file)
           p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-  - if user_signed_in? && current_user.author?(question)
+  - if can?(:destroy, question)
     = link_to 'Delete question', question, class: 'btn btn-outline-primary', method: :delete
+  - if can?(:update, question)
     = link_to 'Edit question', '#', class: 'edit-question-links btn btn-outline-primary', data: { question_id: question.id }
     = render 'edit_form', question: question
 
@@ -32,4 +33,5 @@
           div class="gist" data-src="#{link.url+ ".json"}"
         - else
           = link_to link.name, link.url
-        = link_to 'Delete link', link_path(link), method: :delete, remote: true
+        - if can?(:destroy, link)
+          = link_to 'Delete link', link_path(link), method: :delete, remote: true

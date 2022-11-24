@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
 
+  authorize_resource
+
   def index
     @questions = Question.all
   end
@@ -38,18 +40,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author?(@question)
-      @question.update(question_params)
-    end
+    @question.update(question_params)
   end
 
   def destroy
-    if current_user.author?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Your question successfully delete.'
-    else
-      redirect_to @question, notice: 'Only the author can delete this question'
-    end
+    @question.destroy
+    redirect_to questions_path, notice: 'Your question successfully delete.'
   end
 
   private
