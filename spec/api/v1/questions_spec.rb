@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { 'CONTENT_TYPE' => 'application/json',
-                    'ACCEPT' => 'application/json' } }
+  let(:headers) { { 'ACCEPT' => 'application/json' } }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -11,7 +10,7 @@ describe 'Questions API', type: :request do
     end
 
     context 'authorized' do
-      let(:access_token) { create(:access_token, scopes: 'public') }
+      let(:access_token) { create(:access_token) }
       let(:user) { create(:user) }
       let!(:questions) { create_list(:question, 2, author_id: user.id) }
       let(:question) { questions.first }
@@ -56,6 +55,96 @@ describe 'Questions API', type: :request do
           end
         end
       end
+    end
+  end
+
+  describe 'GET /api/v1/questions/:id' do
+    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    let(:question) { create(:question, author_id: user.id) }
+    let!(:links) { create_list(:link, 3, linkable: question) }
+    let!(:comments) { create_list(:comment, 3, commentable: question, user: user) }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :get }
+    end
+
+    before { get api_path, params: { access_token: access_token.token }, headers: headers }
+
+    it 'contains question fields' do
+      %w[id title body created_at updated_at].each do |attr|
+        expect(json['question'][attr]).to eq question.send(attr).as_json
+      end
+    end
+
+    it 'contains question comments files links' do
+      %w[comments files links].each do |attr|
+        expect(json['question'][attr].size).to eq question.send(attr).size
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions' do
+    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+    let(:api_path) { '/api/v1/questions' }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    before do
+      post api_path, params: {
+        access_token: access_token.token,
+        question: attributes_for(:question) },
+           headers: headers
+    end
+
+    it 'return new question' do
+      expect(json['question']['body']).to eq 'MyText'
+    end
+  end
+
+  describe 'PATCH /api/v1/questions/:id' do
+    let(:question) { create(:question, author_id: user.id) }
+    let(:user) { create(:user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+    end
+
+    before do
+      patch api_path, params: {
+        access_token: access_token.token,
+        id: question,
+        question: { body: 'Edit Body' } },
+            headers: headers
+    end
+
+    it 'return new question' do
+      expect(json['question']['body']).to eq 'Edit Body'
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:id' do
+    let!(:question) { create(:question, author_id: user.id) }
+    let(:user) { create(:user) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    it 'delete the question' do
+      expect do
+        delete(api_path,
+               params: { access_token: access_token.token, id: question },
+               headers: headers)
+      end.to change(Question, :count).by(-1)
     end
   end
 end
