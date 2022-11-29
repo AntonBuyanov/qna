@@ -6,17 +6,16 @@ feature 'User can sign up', %q{
   I'd like to be able to sing up
 } do
 
-  background { visit questions_path }
+  background { visit new_user_registration_path }
 
   describe 'Successful registration' do
     scenario 'Sign up is valid params' do
-      click_on 'Signup'
       fill_in 'Email', with: 'email@yandex.ru'
       fill_in 'Password', with: '123456'
       fill_in 'Password confirmation', with: '123456'
 
       click_on 'Sign up'
-      expect(page).to have_content 'Welcome! You have signed up successfully.'
+      expect(page).to have_content 'A message with a confirmation links has been sent to your send_email address. Please follow the links to activate your account.'
     end
   end
 
@@ -41,7 +40,6 @@ feature 'User can sign up', %q{
 
       click_on 'Sign up'
       expect(page).to have_content 'Email has already been taken'
-      save_and_open_page
     end
   end
 end

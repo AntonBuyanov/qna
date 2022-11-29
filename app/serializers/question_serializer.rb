@@ -4,6 +4,7 @@ class QuestionSerializer < ActiveModel::Serializer
   has_many :comments
   has_many :links
   has_many :files
+
   belongs_to :author
 
   def short_title

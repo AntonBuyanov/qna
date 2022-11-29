@@ -16,7 +16,7 @@
     - question.files.each do |file|
       div class = "file-#{file.id}"
         p= link_to file.filename.to_s, url_for(file)
-        - if can?(:destroy, file)
+        - if can?(:destroy, question)
           p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
   - if can?(:destroy, question)

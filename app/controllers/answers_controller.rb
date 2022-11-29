@@ -55,7 +55,7 @@ class AnswersController < ApplicationController
       "answer_#{params[:question_id]}",
       ApplicationController.render(
         partial: 'answers/answer_for_channel',
-        locals: { answer: @answer}
+        locals: { answer: @answer }
       )
     )
   end

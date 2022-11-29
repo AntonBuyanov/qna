@@ -19,7 +19,7 @@ div id="answer-#{answer.id}"
     = render 'answers/edit_form', answer: answer
   - if can?(:destroy, answer)
     = link_to 'Delete answer', answer, class: 'btn btn-outline-primary', method: :delete, remote: true
-  - if can?(:best_answer, answer)
+  - if can?(:set_best, answer)
     = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-primary', method: :patch, remote: true
 
   .links
