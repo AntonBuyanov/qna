@@ -35,9 +35,7 @@ class AnswersController < ApplicationController
   end
 
   def set_best
-    @answer.mark_as_best
-    @question = @answer.question
-    @question.save
+    BestAnswer.new(@answer).call
   end
 
   def destroy
