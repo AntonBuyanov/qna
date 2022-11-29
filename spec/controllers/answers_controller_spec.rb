@@ -7,6 +7,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
+
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
         expect { post :create, params: { answer: attributes_for(:answer).merge(author_id: user.id), question_id: question }, format: :json }.to change(Answer, :count).by(1)

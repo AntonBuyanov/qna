@@ -11,13 +11,15 @@ feature 'User can add links to answer', %q{
   given(:answer) { create(:answer, question_id: question.id, author_id: user.id) }
   given!(:link) { create(:link, linkable: answer) }
 
-  scenario 'User adds links when add answer', js: true do
+  background do
     sign_in(user)
     visit question_path(question)
     click_on 'add links'
 
     fill_in 'Your answer', with: 'Test answer'
+  end
 
+  scenario 'User adds links when add answer', js: true do
     fill_in 'Link name', with: link.name
     fill_in 'Url', with: link.url
 
@@ -29,11 +31,6 @@ feature 'User can add links to answer', %q{
   end
 
   scenario 'User adds links when add answer with errors', js: true do
-    sign_in(user)
-    visit question_path(question)
-    click_on 'add links'
-
-    fill_in 'Your answer', with: 'Test answer'
     fill_in 'Url', with: 'google.ru'
 
     click_on 'Create answer'

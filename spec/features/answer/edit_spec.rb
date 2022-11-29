@@ -19,10 +19,12 @@ feature 'User can edit his answer', %q{
   end
 
   describe 'Authenticated user', js: true do
-    scenario 'edits his answer' do
+    background do
       sign_in(user)
       visit question_path(question)
+    end
 
+    scenario 'edits his answer' do
       within '.answers' do
         click_on 'Edit'
         fill_in 'Your answer', with: 'edited answer'
@@ -34,9 +36,6 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'remove file his answer' do
-      sign_in(user)
-      visit question_path(question)
-
       within '.answers' do
         click_on 'Edit'
         attach_file 'File', ["#{Rails.root}/spec/spec_helper.rb"]
@@ -50,9 +49,6 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'edits his answer with errors' do
-      sign_in(user)
-      visit question_path(question)
-
       within '.answers' do
         click_on 'Edit'
         fill_in 'Your answer', with: ''
@@ -62,22 +58,9 @@ feature 'User can edit his answer', %q{
       within '.answer-errors' do
         expect(page).to have_content "Body can't be blank"
       end
-
-    end
-
-    scenario "tries to edit other user's question" do
-      sign_in(user_not_author)
-      visit question_path(question)
-
-      within '.answers' do
-        expect(page).to_not have_link 'Edit'
-      end
     end
 
     scenario 'add link to his answer' do
-      sign_in(user)
-      visit question_path(question)
-
       within("#answer-#{answer.id}") do
         click_on 'Edit'
         click_on 'Add link'
@@ -88,6 +71,15 @@ feature 'User can edit his answer', %q{
 
         expect(page).to have_link link.name
       end
+    end
+  end
+
+  scenario 'Authenticated user not author tries to edit answer' do
+    sign_in(user_not_author)
+    visit question_path(question)
+
+    within '.answers' do
+      expect(page).to_not have_link 'Edit'
     end
   end
 end
