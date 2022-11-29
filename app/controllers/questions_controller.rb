@@ -15,9 +15,9 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
     @answers = @question.answers
     @best_answer = @question.best_answer
-    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
     @answer.links.new
   end
 
@@ -65,7 +65,6 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.with_attached_files.find(params[:id])
     gon.question_id = @question.id
-    gon.user_id = current_user.id if current_user
   end
 
   def question_params
