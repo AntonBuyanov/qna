@@ -1,6 +1,10 @@
 class Api::V1::BaseController < ApplicationController
   before_action :doorkeeper_authorize!
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: exception.message, status: :unprocessable_entity
+  end
+
   private
 
   def current_resource_owner
