@@ -32,18 +32,14 @@ class AnswersController < ApplicationController
 
   def update
     @answer.update(answer_params)
-    @question = @answer.question
   end
 
   def set_best
-    @answer.mark_as_best
-    @question = @answer.question
-    @question.save
+    BestAnswer.new(@answer).call
   end
 
   def destroy
     @answer.destroy
-    @question = @answer.question
   end
 
   private
@@ -55,7 +51,7 @@ class AnswersController < ApplicationController
       "answer_#{params[:question_id]}",
       ApplicationController.render(
         partial: 'answers/answer_for_channel',
-        locals: { answer: @answer}
+        locals: { answer: @answer }
       )
     )
   end

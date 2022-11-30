@@ -11,16 +11,9 @@ feature 'User can delete links to answer', %q{
   given(:answer) { create(:answer, question: question, author: user) }
   given!(:link) { create(:link, linkable: answer) }
 
-  scenario 'Unauthenticated user tried delete link to answer', js: true do
-    visit question_path(question)
-    within("#answer-#{answer.id}") do
-      expect(page).to_not have_link 'Delete link'
-    end
-  end
-
   describe 'Authenticated user', js: true do
     background do
-      sign_in user
+      sign_in(user)
       visit question_path(question)
     end
 
@@ -28,6 +21,15 @@ feature 'User can delete links to answer', %q{
       within("#answer-#{answer.id}") do
         click_on 'Delete link'
         expect(page).to_not have_content :link
+      end
+    end
+  end
+
+  describe 'Unauthenticated user' do
+    scenario 'tried delete link to answer' do
+      visit question_path(question)
+      within("#answer-#{answer.id}") do
+        expect(page).to_not have_link 'Delete link'
       end
     end
   end

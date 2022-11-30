@@ -27,7 +27,6 @@ feature 'User can delete links to question', %q{
       within('.question') do
         click_on 'Delete link'
         expect(page).to_not have_content :link
-        save_and_open_page
       end
     end
   end

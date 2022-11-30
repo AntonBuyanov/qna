@@ -13,9 +13,7 @@
 
   <body>
   <%= render 'shared/nav' %>
-
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <%= render 'shared/flash_messages' %>
   <%= yield %>
   <%= render 'shared/footer' %>
   </body>

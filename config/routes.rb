@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'links/destroy'
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :voted do
@@ -20,6 +20,19 @@ Rails.application.routes.draw do
     post '/send_email', to: 'send_email#create'
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+        get :index, on: :collection
+      end
+
+      resources :questions, except: [:new, :edit] do
+        resources :answers, except: [:new, :edit], shallow: true
+      end
+    end
+  end
+
   resources :questions, concerns: %i[voted commented] do
     resources :answers, concerns: %i[voted commented], shallow: true do
       patch :set_best, on: :member
@@ -29,6 +42,8 @@ Rails.application.routes.draw do
   resources :attachments, only: :destroy
   resources :links, only: :destroy
   resources :badges, only: :index
+
+  get 'links/destroy'
 
   root to: 'questions#index'
 
