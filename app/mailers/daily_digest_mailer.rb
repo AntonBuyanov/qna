@@ -1,7 +1,7 @@
 class DailyDigestMailer < ApplicationMailer
   def digest(user)
-    @greeting = 'Hi'
+    @questions = Question.where('created_at > ?', 24.hours.ago).order(id: :asc)
 
-    mail to: user.email
+    mail to: user.email if @questions.any?
   end
 end
