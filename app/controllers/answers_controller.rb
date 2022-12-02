@@ -21,7 +21,6 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
-        AnswerDigestJob.perform_later(@answer)
         format.json { render json: @answer }
       else
         format.json do
