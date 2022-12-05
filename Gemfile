@@ -26,6 +26,9 @@ gem 'omniauth-rails_csrf_protection'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj', '~> 3.13.23'
+gem 'sidekiq', '<7'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -23,10 +23,11 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can [:update, :destroy], [Question, Answer], author_id: user.id
     can :set_best, Answer, author_id: user.id
     can :destroy, Link, linkable: { author_id: user.id }
+    can :destroy, Subscription, user_id: user.id
     can :comment, [Question, Answer]
     can [:like, :dislike, :cancel], [Question, Answer] do |votable|
       votable.author_id != user.id

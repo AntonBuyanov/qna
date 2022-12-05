@@ -9,9 +9,14 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author?(resource)
     resource.author_id == id
+  end
+
+  def subscribe?(resource)
+    subscriptions.exists?(question_id: resource)
   end
 
   def vote(resource, value)

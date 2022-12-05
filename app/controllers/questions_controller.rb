@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :find_subscription, only: [:show, :update]
 
   after_action :publish_question, only: [:create]
 
@@ -71,5 +72,9 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, :author_id, files: [],
                                      links_attributes: [:id, :name, :url, :_destroy],
                                      badge_attributes: [:name, :image])
+  end
+
+  def find_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 end

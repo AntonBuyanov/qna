@@ -11,4 +11,12 @@ class Answer < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
   validates :body, presence: true
+
+  after_save :answer_digest
+
+  private
+
+  def answer_digest
+    AnswerDigestJob.perform_later(self)
+  end
 end

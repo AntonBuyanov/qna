@@ -37,6 +37,7 @@ RSpec.describe Ability do
       it { should be_able_to :create, Question }
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
+      it { should be_able_to :create, Subscription }
     end
 
     context 'update destroy' do
@@ -68,6 +69,10 @@ RSpec.describe Ability do
     context 'comment' do
       it { should be_able_to :comment, question }
       it { should be_able_to :comment, answer }
+    end
+
+    context 'subscribe' do
+      it { should be_able_to [:create, :destroy], Subscription }
     end
   end
 end
