@@ -1,0 +1,6 @@
+= form_with url: search_path, local: true, method: :get do |f|
+  .d-flex
+    = f.text_field :request, class: 'form-control'
+    = f.select :type, SearchService::TYPES, class: 'form-control'
+
+    = f.submit 'Search', class: 'btn btn-outline-secondary'
