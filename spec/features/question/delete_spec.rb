@@ -13,7 +13,10 @@ feature 'User can only delete his question', %q{
   scenario 'Authenticated user delete his question' do
     sign_in(user)
     visit question_path(question)
-    click_on 'Delete question'
+
+    within '.question' do
+      click_on 'Delete'
+    end
 
     expect(page).to have_content 'Your question successfully delete.'
   end
@@ -21,11 +24,16 @@ feature 'User can only delete his question', %q{
   scenario 'Authenticated user delete not your own question' do
     sign_in(user_not_author)
     visit question_path(question)
-    expect(page).to_not have_link 'Delete question'
+
+    within '.question' do
+      expect(page).to_not have_link 'Delete'
+    end
   end
 
   scenario 'Unauthenticated user delete question' do
     visit question_path(question)
-    expect(page).to_not have_link 'Delete question'
+    within '.question' do
+      expect(page).to_not have_link 'Delete'
+    end
   end
 end

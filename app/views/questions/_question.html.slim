@@ -1,37 +1,42 @@
-.question
-  h3= link_to question.title, question
+.row.justify-content-left.mt-3
+  .col.col-md-8
+    .card.border-secondary
+      .card-body
+        .question
+          b Question
+          h4= link_to question.title, question
 
-  p Badge:
-  - if question.badge.present?
-    = question.badge.name
+          - if can?(:destroy, question)
+            = link_to 'Delete', question, class: 'btn btn-success', method: :delete
+          - if can?(:update, question)
+            = link_to 'Edit', '#', class: 'edit-question-links btn btn-success', data: { question_id: question.id }
+            = render 'edit_form', question: question
 
-  p Rating:
-  = render 'votes/vote', resource: question
+          p Badge:
+          - if question.badge.present?
+            = question.badge.name
 
-  .question-comments
-    p Comments:
-    = render 'comments/comments', resource: question
+          p Rating:
+          = render 'votes/vote', resource: question
 
-  - if question.files.attached?
-    - question.files.each do |file|
-      div class = "file-#{file.id}"
-        p= link_to file.filename.to_s, url_for(file)
-        - if can?(:destroy, question)
-          p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
+          .question-comments
+            p Comments:
+            = render 'comments/comments', resource: question
 
-  - if can?(:destroy, question)
-    = link_to 'Delete question', question, class: 'btn btn-outline-primary', method: :delete
-  - if can?(:update, question)
-    = link_to 'Edit question', '#', class: 'edit-question-links btn btn-outline-primary', data: { question_id: question.id }
-    = render 'edit_form', question: question
+          - if question.files.attached?
+            - question.files.each do |file|
+              div class = "file-#{file.id}"
+                p= link_to file.filename.to_s, url_for(file)
+                - if can?(:destroy, question)
+                  p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-  p Links:
-  ul
-    - question.links.each do |link|
-      div id="link-#{link.id}"
-        - if link.gist?
-          div class="gist" data-src="#{link.url+ ".json"}"
-        - else
-          = link_to link.name, link.url
-        - if can?(:destroy, link)
-          = link_to 'Delete link', link_path(link), method: :delete, remote: true
+          p Links:
+          ul
+            - question.links.each do |link|
+              div id="link-#{link.id}"
+                - if link.gist?
+                  div class="gist" data-src="#{link.url+ ".json"}"
+                - else
+                  = link_to link.name, link.url
+                - if can?(:destroy, link)
+                  = link_to 'Delete link', link_path(link), method: :delete, remote: true
