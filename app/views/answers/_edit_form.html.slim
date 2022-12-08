@@ -1,13 +1,13 @@
 td= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
   p
     = f.label :body, 'Your answer'
-    = f.text_area :body
+    = f.text_area :body, class: 'form-control mt-2'
   p
-  = f.label :files
-  = f.file_field :files, multiple: true, direct_upload: true
+  = f.label :files, class: 'formFileSm'
+  = f.file_field :files, multiple: true, direct_upload: true,  class: 'form-control form-control-sm'
 
   = f.fields_for :links do |l|
     = render 'links/link_fields', f: l
   .links
-    = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
-  p= f.submit 'Save'
+    = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields', class: 'btn btn-outline-success btn-sm'
+  p= f.submit 'Save', class: 'btn btn-success btn-sm'

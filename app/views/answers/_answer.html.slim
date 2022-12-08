@@ -1,35 +1,40 @@
-div id="answer-#{answer.id}"
-  p= answer.body
+.row.justify-content-left.mt-3
+  .col.col-md-10
+    .card.border-secondary
+      .card-body
+        b Answer
+        div id="answer-#{answer.id}"
+          p= answer.body
 
-  p Rating:
-  = render 'votes/vote', resource: answer
+          - if can?(:update, answer)
+            = link_to 'Edit', '#', class: 'edit-answer-links btn btn-outline-success', data: { answer_id: answer.id }
+            = render 'answers/edit_form', answer: answer
+          - if can?(:destroy, answer)
+            = link_to 'Delete answer', answer, class: 'btn btn-outline-success', method: :delete, remote: true
+          - if can?(:set_best, answer)
+            = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-success', method: :patch, remote: true
 
-  p Comments:
-  = render 'comments/comments', resource: answer
+          p Rating:
+          = render 'votes/vote', resource: answer
 
-  - if answer.files.attached?
-    - answer.files.each do |file|
-      div class = "file-#{file.id}"
-        = link_to file.filename.to_s, url_for(file)
-        - if can?(:destroy, answer)
-          p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
+          p Comments:
+          = render 'comments/comments', resource: answer
 
-  - if can?(:update, answer)
-    = link_to 'Edit', '#', class: 'edit-answer-links btn btn-outline-primary', data: { answer_id: answer.id }
-    = render 'answers/edit_form', answer: answer
-  - if can?(:destroy, answer)
-    = link_to 'Delete answer', answer, class: 'btn btn-outline-primary', method: :delete, remote: true
-  - if can?(:set_best, answer)
-    = link_to 'Best answer', set_best_answer_path(answer), class: 'btn btn-outline-primary', method: :patch, remote: true
+          - if answer.files.attached?
+            - answer.files.each do |file|
+              div class = "file-#{file.id}"
+                = link_to file.filename.to_s, url_for(file)
+                - if can?(:destroy, answer)
+                  p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-  .links
-  p Links:
-  ul
-    - answer.links.each do |link|
-      div id="link-#{link.id}"
-        - if link.gist?
-          div class="gist" data-src="#{link.url+ ".json"}"
-        - else
-          = link_to link.name, link.url
-        - if can?(:destroy, link)
-          = link_to 'Delete link', link_path(link), method: :delete, remote: true
+          .links
+          p Links:
+          ul
+            - answer.links.each do |link|
+              div id="link-#{link.id}"
+                - if link.gist?
+                  div class="gist" data-src="#{link.url+ ".json"}"
+                - else
+                  = link_to link.name, link.url
+                - if can?(:destroy, link)
+                  = link_to 'Delete link', link_path(link), class: 'btn btn-outline-success btn-sm', method: :delete, remote: true

@@ -42,9 +42,7 @@ feature 'User can create answer while on the page question', %q{
   describe 'Unauthenticated user', js: true do
     scenario 'tries to create answer' do
       visit question_path(question)
-      click_on 'Create answer'
-
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).to_not have_link 'Create answer'
     end
   end
 end

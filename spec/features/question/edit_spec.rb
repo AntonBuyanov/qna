@@ -25,7 +25,7 @@ feature 'User can edit his question', %q{
 
     scenario 'edits his question with attach file' do
       within '.question' do
-        click_on 'Edit question'
+        click_on 'Edit'
 
         fill_in 'question_title', with: 'Test question'
         fill_in 'question_body', with: 'text text text'
@@ -42,7 +42,7 @@ feature 'User can edit his question', %q{
 
     scenario 'remove file his question' do
       within '.question' do
-        click_on 'Edit question'
+        click_on 'Edit'
 
         attach_file 'File', ["#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
@@ -53,7 +53,7 @@ feature 'User can edit his question', %q{
 
     scenario 'edits his question with errors' do
       within '.question' do
-        click_on 'Edit question'
+        click_on 'Edit'
 
         fill_in 'question_title', with: ''
         fill_in 'question_body', with: ''
@@ -68,7 +68,7 @@ feature 'User can edit his question', %q{
 
     scenario 'add link to his question' do
       within('.question') do
-        click_on 'Edit question'
+        click_on 'Edit'
         click_on 'Add link'
 
         fill_in 'Link name', with: link.name
@@ -85,7 +85,7 @@ feature 'User can edit his question', %q{
     visit question_path(question)
 
     within '.question' do
-      expect(page).to_not have_link 'Edit question'
+      expect(page).to_not have_link 'Edit'
     end
   end
 end

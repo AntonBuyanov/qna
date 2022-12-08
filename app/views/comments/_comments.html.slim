@@ -4,8 +4,7 @@ div id="#{resource.class.name.downcase}-comment-#{resource.id}"
 
 .comment
   = form_with model: [resource, Comment.new], url: polymorphic_path(resource, action: :comment), local: false do |f|
-    p
-      = f.label :body
-      = f.text_area :body, class: 'form-control mt-2'
+    = f.label :body
+    = f.text_area :body, class: 'form-control mt-2'
 
-    p= f.submit 'Add comment', class: 'btn btn-primary mt-2'
+    p= f.submit 'Add comment', class: 'btn btn-outline-success mt-2 btn-sm'

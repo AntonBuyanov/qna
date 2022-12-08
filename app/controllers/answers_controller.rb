@@ -14,20 +14,10 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
-  def show ;end
+  def show; end
 
   def create
-    @answer = @question.answers.new(answer_params)
-
-    respond_to do |format|
-      if @answer.save
-        format.json { render json: @answer }
-      else
-        format.json do
-          render json: @answer.errors.full_messages, status: :unprocessable_entity
-        end
-      end
-    end
+    @answer = @question.answers.create(answer_params)
   end
 
   def update

@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   resources :badges, only: :index
 
   get 'links/destroy'
+  get 'search', action: :search, controller: 'search'
 
   root to: 'questions#index'
 

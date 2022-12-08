@@ -1,0 +1,23 @@
+.row.justify-content-center.mt-3
+  .col.col-md-8
+    .card.border-secondary
+      .card-body
+        - if @result.blank?
+          h3 No results
+        - else
+          ul
+            - @result.each do |search|
+              - if search.is_a?(User)
+                li = "#{search.class}: #{search.email}"
+
+              - elsif search.is_a?(Comment)
+                li ="Comment: #{search.body} in #{search.commentable.class}: #{search.commentable.body}"
+                = link_to search.commentable.body, question_path(search.commentable.question_id)
+
+              - elsif search.is_a?(Answer)
+                li = "#{search.class}: #{search.body}"
+                = link_to search.body, question_path(search.question)
+
+              - else
+                li = "#{search.class}:"
+                = link_to search.title, question_path(search)
