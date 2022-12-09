@@ -211,6 +211,8 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mysql2 (0.4.10)
+    net-http (0.3.1)
+      uri
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -391,6 +393,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    uri (0.12.0)
     version_gem (1.1.1)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -449,6 +452,7 @@ DEPENDENCIES
   listen (~> 3.3)
   mini_racer
   mysql2 (~> 0.4.10)
+  net-http
   oj (~> 3.13.23)
   omniauth
   omniauth-github
