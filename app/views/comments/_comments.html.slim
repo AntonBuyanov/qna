@@ -1,6 +1,7 @@
 div id="#{resource.class.name.downcase}-comment-#{resource.id}"
-  - resource.comments.each do |c|
-    p= c.body
+  - resource.comments.each do |comment|
+    - cache comment do
+      p= comment.body
 
 .comment
   = form_with model: [resource, Comment.new], url: polymorphic_path(resource, action: :comment), local: false do |f|
