@@ -1,7 +1,20 @@
-div id="#{resource.class.name.downcase}-rating-#{resource.id}"
-  = resource.rating
-- if can?(:like, resource)
-  .vote
-    = link_to '+', polymorphic_path(resource, action: :like), method: :patch, remote: true, data: { type: :json }
-    = link_to '-', polymorphic_path(resource, action: :dislike), method: :patch, remote: true, data: { type: :json }
-    = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel), method: :delete, remote: true, data: { type: :json }
+.vote
+  = link_to polymorphic_path(resource, action: :like), method: :patch, remote: true, data: { type: :json }, class: "vote-up #{'hidden' if current_user_vote&.value&.positive?}" do
+    svg aria-hidden="true" class="svg-icon ArrowUp" width="36" height="36" viewBox="0 0 36 36"
+      path fill-rule="evenodd" d="M2 25h32L18 9 2 25Z"
+
+  = link_to polymorphic_path(resource, action: :cancel), method: :delete, remote: true, data: { type: :json }, class: "vote-up-cancel #{'hidden' unless current_user_vote&.value&.positive?}" do
+    svg aria-hidden="true" class="svg-icon-cancel ArrowUp" width="36" height="36" viewBox="0 0 36 36"
+      path fill-rule="evenodd" d="M2 25h32L18 9 2 25Z"
+
+  .d-flex.justify-content-end
+    div id="#{resource.class.name.downcase}-rating-#{resource.id}"
+      strong= resource.rating
+
+  = link_to polymorphic_path(resource, action: :dislike), method: :patch, remote: true, data: { type: :json }, class: "vote-down #{'hidden' if current_user_vote&.value&.negative?}" do
+    svg aria-hidden="true" class="svg-icon ArrowDown" width="36" height="36" viewBox="0 0 36 36"
+      path fill-rule="evenodd" d="M2 11h32L18 27 2 11Z"
+
+  = link_to polymorphic_path(resource, action: :cancel), method: :delete, remote: true, data: { type: :json }, class: "vote-down-cancel #{'hidden' unless current_user_vote&.value&.negative?}" do
+    svg aria-hidden="true" class="svg-icon-cancel ArrowDown" width="36" height="36" viewBox="0 0 36 36"
+      path fill-rule="evenodd" d="M2 11h32L18 27 2 11Z"
