@@ -4,7 +4,7 @@ td= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-an
     = f.text_area :body, class: 'form-control mt-2'
   p
   = f.label :files, class: 'formFileSm'
-  = f.file_field :files, multiple: true, direct_upload: true,  class: 'form-control form-control-sm'
+  = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control form-control-sm'
 
   = f.fields_for :links do |l|
     = render 'links/link_fields', f: l

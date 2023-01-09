@@ -18,18 +18,18 @@
     = render 'shared/errors', resource: @answer
 
   - if can?(:create, @answer)
-    .col.col-md-3
-      = form_with model: [@question, @answer], class: 'new-answer', data: { type: :json }, local: false do |f|
-        b= f.label :body, 'Your answer'
-        p= f.text_area :body, class: 'form-control mt-2'
+  .col.col-md-3
+    = form_with model: [@question, @answer], class: 'new-answer', data: { type: :json }, local: false do |f|
+      b= f.label :body, 'Your answer'
+      p= f.text_area :body, class: 'form-control mt-2'
 
-        p
-          = f.label :files, class: 'formFileSm'
-          = f.file_field :files, multiple: true, class: 'form-control form-control-sm'
+      p
+        = f.label :files, class: 'formFileSm'
+        = f.file_field :files, multiple: true, class: 'form-control form-control-sm'
 
-        p Links:
-        #links
-          = f.fields_for :links do |l|
-          .links
-            p= link_to_add_association 'add links', f, :links, partial: 'links/link_fields', class: 'btn btn-outline-success btn-sm'
-        = f.submit 'Create answer', class: 'btn btn-success'
+      p Links:
+      #links
+        = f.fields_for :links do |l|
+        .links
+          p= link_to_add_association 'add links', f, :links, partial: 'links/link_fields', class: 'btn btn-outline-success btn-sm'
+      = f.submit 'Create answer', class: 'btn btn-success'

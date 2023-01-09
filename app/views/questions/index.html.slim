@@ -1,3 +1,6 @@
-- cache collection_cache_key_for :question do
-  .questions
-    = render @questions
+.search-container.col-md-9.mx-auto
+  = render 'search/form'
+
+/ - cache collection_cache_key_for :question do
+.questions
+  = render @questions

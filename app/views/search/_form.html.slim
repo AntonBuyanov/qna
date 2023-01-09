@@ -1,6 +1,9 @@
 = form_with url: search_path, local: true, method: :get do |f|
   .d-flex
-    = f.text_field :request, class: 'form-control'
-    = f.select :type, SearchService::TYPES, class: 'form-control'
+    = f.text_field :request, class: 'form-control', list: 'datalistOptions', id: 'exampleDataList', placeholder: 'Введите для поиска...'
+    datalist id='datalistOptions'
+      option value='как работает bootstrap в rails'
+      option value='undefined method for nil:NilClass'
 
+    = f.select :type, SearchService::TYPES, {}, class: 'form-select text-muted'
     = f.submit 'Search', class: 'btn btn-outline-secondary'
