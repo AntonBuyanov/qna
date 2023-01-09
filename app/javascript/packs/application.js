@@ -2,14 +2,22 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
-require("@rails/ujs").start()
-require("turbolinks").start()
-require("@rails/activestorage").start()
-require('jquery')
-require("@nathanvda/cocoon")
-require("channels")
 
-import "bootstrap"
-import "../utilities/answers"
-import "../utilities/question"
-import "../utilities/vote"
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+import Rails from "@rails/ujs"
+import Turbolinks from "turbolinks"
+import * as ActiveStorage from "@rails/activestorage"
+import 'channels'
+import '@popperjs/core'
+import 'bootstrap'
+import '@nathanvda/cocoon'
+require('jquery')
+require("../utilities/answers")
+require("../utilities/question")
+require("../utilities/vote")
+
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
+

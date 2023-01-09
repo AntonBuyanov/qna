@@ -1,6 +1,8 @@
 .navbar {
   position: relative;
-  height: 80px !important;
+  height: 130px !important;
+  margin-bottom: 50px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 }
 
 .brand {
@@ -12,22 +14,38 @@
 
 .right {
   position: absolute;
-  right: 0;
+  right: 150px;
+  margin: 0 10px;
 }
 
 .left {
   position: absolute;
-  left: 0;
+  left: 160px;
+  font-weight: bold !important;
 }
 
 .btn-sm {
   color: #3A61E2 !important;
 }
 
-.btn-success {
-  background-color: #3A61E2 !important;
+.btn-sm:hover {
+  color: #834DDA !important;
 }
 
-.mb-5 {
-  background-color: green;
+.btn-bold {
+  font-weight: bold !important;
+}
+
+.social {
+  margin: 10px;
+}
+
+.github:hover,
+.vkontakte:hover,
+.brand:hover {
+  filter: hue-rotate(750deg);
+}
+
+.d-flex {
+  gap: 7px;
 }
