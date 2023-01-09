@@ -10,9 +10,9 @@ consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.que
         let id = data.resource_id;
 
         if (type === 'Question') {
-            $(`#question-comment-${id}`).append(data.partial);
+            $(`#question-comment-${id}`).append(data['partial']);
         } else {
-            $(`#answer-comment-${id}`).append(data.partial);
+            $(`#answer-comment-${id}`).append(data['partial']);
         }
     }
 });
