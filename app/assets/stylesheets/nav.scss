@@ -1,3 +1,33 @@
-.nav_user {
-  text-align: right;
+.navbar {
+  position: relative;
+  height: 80px !important;
+}
+
+.brand {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px !important;
+  display: block;
+}
+
+.right {
+  position: absolute;
+  right: 0;
+}
+
+.left {
+  position: absolute;
+  left: 0;
+}
+
+.btn-sm {
+  color: #3A61E2 !important;
+}
+
+.btn-success {
+  background-color: #3A61E2 !important;
+}
+
+.mb-5 {
+  background-color: green;
 }

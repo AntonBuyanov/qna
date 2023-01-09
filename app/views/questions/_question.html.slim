@@ -1,17 +1,16 @@
-.row.justify-content-left.mt-3
-  .col.col-md-8
-    .card.border-secondary
-      .card-body
-        .question
-          b Question
-          h4= link_to question.title, question
-
-          - if can?(:destroy, question)
-            = link_to 'Delete', question, class: 'btn btn-success', method: :delete
-          - if can?(:update, question)
-            = link_to 'Edit', '#', class: 'edit-question-links btn btn-success', data: { question_id: question.id }
-            = render 'edit_form', question: question
-
+.container-fluid
+  .row
+    .col-sm-3
+      .question
+        h4= link_to question.title, question
+        - if can?(:destroy, question)
+          = link_to 'Delete', question, class: 'btn btn-success', method: :delete
+        - if can?(:update, question)
+          = link_to 'Edit', '#', class: 'edit-question-links btn btn-success', data: { question_id: question.id }
+          = render 'edit_form', question: question
+    .col-sm-9
+      .row
+        div class="col-8 col-sm-6"
           p Badge:
           - if question.badge.present?
             = question.badge.name
