@@ -1,11 +1,9 @@
-div id="#{resource.class.name.downcase}-comment-#{resource.id}"
-  - resource.comments.each do |comment|
-    - cache comment do
-      p= comment.body
+.mt-4.me-4.small
+  div id="#{resource.class.to_s.downcase}-comment-#{resource.id}"
+    - resource.comments.each do |comment|
+      - cache comment do
+        p class="border-top small" = comment.body
 
-.comment
-  = form_with model: [resource, Comment.new], url: polymorphic_path(resource, action: :comment), local: false do |f|
-    = f.label :body
-    = f.text_area :body, class: 'form-control mt-2'
-
-    p= f.submit 'Add comment', class: 'btn btn-outline-success mt-2 btn-sm'
+  - if can?(:create, Comment)
+    = link_to 'Add a comment', '#', class: 'add-comment btn-action', data: { resource_id: resource.id, resource_type: resource.class.to_s }
+    = render 'comments/form', resource: resource

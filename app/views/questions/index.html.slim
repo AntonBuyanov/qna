@@ -1,5 +1,6 @@
-- cache collection_cache_key_for :question do
-  .questions
-    -if can?(:create, Question)
-      p= link_to 'Ask question', new_question_path, class: 'btn btn-info btn-sm'
-    = render @questions
+.search-container.col-md-9.mx-auto
+  = render 'search/form'
+
+/ - cache collection_cache_key_for :question do
+.questions
+  = render @questions

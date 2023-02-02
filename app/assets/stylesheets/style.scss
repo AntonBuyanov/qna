@@ -1,0 +1,64 @@
+body {
+  color: #232629 !important;
+}
+
+.question-title {
+  color: #3b4045;
+  text-decoration: none;
+  font-weight: 600 !important;
+}
+
+.question-title:hover {
+  color: #1c5279;
+}
+
+.btn-action {
+  color: #6a737c;
+  font-size: 13px;
+  text-decoration: none;
+  padding-right: 6px;
+}
+
+.btn-action:hover {
+  color: #232629;
+}
+
+.btn-ask {
+  font-weight: 500 !important;
+}
+
+.button-group {
+  margin-top: 15px;
+}
+
+.rating {
+  color: #6a737c;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.svg-icon {
+  fill: #babfc4;
+}
+
+.svg-icon:hover {
+  fill: #1c5279;
+}
+
+.svg-icon-cancel {
+  fill: #1c5279;
+}
+
+.answers-count {
+  padding: 20px;
+  margin-left: 160px;
+}
+
+.user-info {
+  font-size: 12px;
+}
+
+.footer {
+  background-color: #232629;
+  height: 100px;
+}

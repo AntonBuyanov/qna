@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    @questions = Question.all
+    @questions = Question.order(updated_at: :desc)
   end
 
   def show
@@ -54,12 +54,20 @@ class QuestionsController < ApplicationController
   def publish_question
     return if @question.errors.any?
 
+    ApplicationController.renderer.instance_variable_set(
+      :@env, {
+      "warden" => warden
+    }
+    )
+
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(
-        partial: 'questions/question_for_channel',
-        locals: { question: @question }
-      )
+      {
+        partial: ApplicationController.render(
+          partial: 'questions/question',
+          locals: { question: @question }
+        )
+      }
     )
   end
 

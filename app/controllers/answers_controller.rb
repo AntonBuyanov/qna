@@ -37,13 +37,23 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
+    ApplicationController.renderer.instance_variable_set(
+      :@env, {
+      "warden" => warden
+    }
+    )
+
     ActionCable.server.broadcast(
       "answer_#{params[:question_id]}",
-      ApplicationController.render(
-        partial: 'answers/answer_for_channel',
-        locals: { answer: @answer }
-      )
+      {
+        author_id: @answer.author.id,
+        partial: ApplicationController.render(
+          partial: 'answers/answer',
+          locals: { answer: @answer },
+        )
+      }
     )
+
   end
 
   def find_question

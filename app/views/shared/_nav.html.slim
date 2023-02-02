@@ -1,15 +1,24 @@
-.row.navbar.bg-dark.text-info
-  .d-flex.justify-content-between
-    .left.px-5.mt-4
-      = link_to 'Qna', root_path, class: 'text-info'
+nav class="navbar sticky-top" style="background-color: #ffffff"
+  .container-fluid
+    .brand
+      = link_to root_path
+        = image_tag 'logo.svg', size: '230x35'
     .right
-      .search
-        = render 'search/form'
-
       - if user_signed_in?
-        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-outline-primary me-2'
-        | Hi,
-        = current_user.email
+        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-sm'
       - else
-        = link_to 'Login', new_user_session_path, class: 'btn btn-outline-light me-2'
-        = link_to 'Signup', new_user_registration_path, class: 'btn btn-warning'
+        .login
+          = link_to 'Login', new_user_session_path, class: 'btn btn-sm'
+        .signup
+          = link_to 'Signup', new_user_registration_path, class: 'btn btn-sm'
+        .social.d-flex
+          .github
+            = link_to omniauth_authorize_path(User, 'github'), method: :post do
+              = image_tag 'github.svg', size: '20x20'
+          .vkontakte
+            = link_to omniauth_authorize_path(User, 'vkontakte'), method: :post
+              = image_tag 'vk.svg', size: '20x20'
+
+    .left
+      - if can?(:create, Question)
+        = link_to 'Ask question', new_question_path, class: 'btn btn-sm btn-ask'

@@ -1,36 +1,51 @@
-.row.justify-content-left.mt-3
-  .col.col-md-8
-    .card.border-secondary
-      .card-body
-        .question
-          b Question
-          h4= link_to question.title, question
+div id="question-#{question.id}"
+  .container-fluid.col-md-9.mx-auto
+    .card.row.border-light
+      .card-header.small
+        => distance_of_time_in_words(Time.now, question.updated_at)
+        | ago
+      .question.card-body.p-4.border-bottom
+        .question-title
+          = link_to question.title, question, class: 'question-title lead'
 
-          - if can?(:destroy, question)
-            = link_to 'Delete', question, class: 'btn btn-success', method: :delete
-          - if can?(:update, question)
-            = link_to 'Edit', '#', class: 'edit-question-links btn btn-success', data: { question_id: question.id }
-            = render 'edit_form', question: question
+        .row.pt-3
+          .button-group.col-9
+            = render 'subscriptions/subscription', resource: question
+            - if can?(:destroy, question)
+              = link_to 'Delete', question, class: 'btn-action', method: :delete
+            - if can?(:update, question)
+              = link_to 'Edit', '#', class: 'edit-question-links btn-action', data: { question_id: question.id }
+              = render 'questions/edit_form', question: question
+          .user-info.col-3.text-muted
+            .user-action-time.me-4
+              | asked
+              => question.created_at.strftime(" %b %d, %Y at %H:%M")
+            .question-author.text-decoration-underline
+              = question.author.email
 
-          p Badge:
+      .row.mt-2
+        .col-1
+          = render 'votes/vote', resource: question, current_user_vote: question.votes.find_by(user: current_user)
+
+        .question-body.mt-2.col-11
+          = question.body
+
+        .question-comments
+          = render 'comments/comments', resource: question
+
+        .badge
           - if question.badge.present?
+            p Badge:
             = question.badge.name
 
-          p Rating:
-          = render 'votes/vote', resource: question
+        - if question.files.attached?
+          - question.files.each do |file|
+            div class = "file-#{file.id}"
+              p= link_to file.filename.to_s, url_for(file)
+              - if can?(:destroy, question)
+                p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
 
-          .question-comments
-            p Comments:
-            = render 'comments/comments', resource: question
-
-          - if question.files.attached?
-            - question.files.each do |file|
-              div class = "file-#{file.id}"
-                p= link_to file.filename.to_s, url_for(file)
-                - if can?(:destroy, question)
-                  p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
-
-          p Links:
+        - if question.badge.present?
           ul
             - question.links.each do |link|
               div id="link-#{link.id}"
@@ -39,4 +54,4 @@
                 - else
                   = link_to link.name, link.url
                 - if can?(:destroy, link)
-                  = link_to 'Delete link', link_path(link), method: :delete, remote: true
+                  = link_to 'Delete link', link_path(link), method: :delete, class: 'btn-action', remote: true
