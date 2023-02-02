@@ -1,49 +1,57 @@
 div id="question-#{question.id}"
-  .container-fluid.mt-3
-    .col-md-9.mx-auto
-      .row.card
-        .card-header.d-flex.small
-          => distance_of_time_in_words(Time.now, question.updated_at)
-          | ago
-          .ms-auto.text-muted
-            = question.author.email
-        .question.card-body.mt-3.row
-          .col-6
-            h6= link_to question.title, question
+  .container-fluid.col-md-9.mx-auto
+    .card.row.border-light
+      .card-header.small
+        => distance_of_time_in_words(Time.now, question.updated_at)
+        | ago
+      .question.card-body.p-4.border-bottom
+        .question-title
+          = link_to question.title, question, class: 'question-title lead'
+
+        .row.pt-3
+          .button-group.col-9
+            = render 'subscriptions/subscription', resource: question
             - if can?(:destroy, question)
-              = link_to 'Delete', question, class: 'btn btn-outline-primary btn-sm', method: :delete
+              = link_to 'Delete', question, class: 'btn-action', method: :delete
             - if can?(:update, question)
-              = link_to 'Edit', '#', class: 'edit-question-links btn btn-outline-primary btn-sm', data: { question_id: question.id }
+              = link_to 'Edit', '#', class: 'edit-question-links btn-action', data: { question_id: question.id }
               = render 'questions/edit_form', question: question
+          .user-info.col-3.text-muted
+            .user-action-time.me-4
+              | asked
+              => question.created_at.strftime(" %b %d, %Y at %H:%M")
+            .question-author.text-decoration-underline
+              = question.author.email
 
-          .col-6.text-end
-            = render 'votes/vote', resource: question, current_user_vote: question.votes.find_by(user: current_user)
+      .row.mt-2
+        .col-1
+          = render 'votes/vote', resource: question, current_user_vote: question.votes.find_by(user: current_user)
 
-          .question-comments
-            strong Comments
-            - if question.comments.present?
-              = render 'comments/comments', resource: question
+        .question-body.mt-2.col-11
+          = question.body
 
-          .badge
-            - if question.badge.present?
-              p Badge:
-              = question.badge.name
+        .question-comments
+          = render 'comments/comments', resource: question
 
-          - if question.files.attached?
-            - question.files.each do |file|
-              div class = "file-#{file.id}"
-                p= link_to file.filename.to_s, url_for(file)
-                - if can?(:destroy, question)
-                  p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
-
+        .badge
           - if question.badge.present?
-            p Links:
-            ul
-              - question.links.each do |link|
-                div id="link-#{link.id}"
-                  - if link.gist?
-                    div class="gist" data-src="#{link.url+ ".json"}"
-                  - else
-                    = link_to link.name, link.url
-                  - if can?(:destroy, link)
-                    = link_to 'Delete link', link_path(link), method: :delete, remote: true
+            p Badge:
+            = question.badge.name
+
+        - if question.files.attached?
+          - question.files.each do |file|
+            div class = "file-#{file.id}"
+              p= link_to file.filename.to_s, url_for(file)
+              - if can?(:destroy, question)
+                p= link_to 'Delete file', attachment_path(file.id), class: 'btn btn-outline-danger', method: :delete, remote: true
+
+        - if question.badge.present?
+          ul
+            - question.links.each do |link|
+              div id="link-#{link.id}"
+                - if link.gist?
+                  div class="gist" data-src="#{link.url+ ".json"}"
+                - else
+                  = link_to link.name, link.url
+                - if can?(:destroy, link)
+                  = link_to 'Delete link', link_path(link), method: :delete, class: 'btn-action', remote: true

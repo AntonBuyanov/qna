@@ -21,19 +21,14 @@
 .left {
   position: absolute;
   left: 160px;
-  font-weight: bold !important;
 }
 
 .btn-sm {
-  color: #3A61E2 !important;
+  color: #39739d !important;
 }
 
 .btn-sm:hover {
-  color: #834DDA !important;
-}
-
-.btn-bold {
-  font-weight: bold !important;
+  color: #39739d !important;
 }
 
 .social {
@@ -43,7 +38,7 @@
 .github:hover,
 .vkontakte:hover,
 .brand:hover {
-  filter: hue-rotate(750deg);
+  filter: invert(38%) sepia(71%) saturate(410%) hue-rotate(162deg) brightness(91%) contrast(87%);
 }
 
 .d-flex {

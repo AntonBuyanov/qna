@@ -7,8 +7,7 @@ $(document).on('turbolinks:load', function() {
                 $(this).find('.vote-down').prop('disabled', true);
 
                 let resource = e.detail[0];
-                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html('<strong>' + resource.rating +
-                    '</strong>');
+                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html(resource.rating);
             })
 
         $(this).find('.vote-up-cancel')
@@ -18,8 +17,7 @@ $(document).on('turbolinks:load', function() {
                 $(this).find('.vote-down').prop('disabled', false);
 
                 let resource = e.detail[0];
-                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html('<strong>' + resource.rating +
-                    '</strong>');
+                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html(resource.rating);
             })
 
         $(this).find('.vote-down')
@@ -29,8 +27,7 @@ $(document).on('turbolinks:load', function() {
                 $(this).find('.vote-up').prop('disabled', true);
 
                 let resource = e.detail[0];
-                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html('<strong>' + resource.rating +
-                    '</strong>');
+                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html(resource.rating);
             })
 
         $(this).find('.vote-down-cancel')
@@ -40,18 +37,7 @@ $(document).on('turbolinks:load', function() {
                 $(this).find('.vote-up').prop('disabled', false);
 
                 let resource = e.detail[0];
-                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html('<strong>' + resource.rating +
-                    '</strong>');
+                $(`#${resource.votable_name}-rating-${resource.votable_id}`).html(resource.rating);
             })
-
-        $('.vote').on('ajax:error', (e) => {
-            let error = e.detail[0].error
-
-            $('.flash-container').html('<div class="alert alert-warning alert-dismissable fade show" role="alert" >' +
-                '<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">\n' +
-                '<use xlink:href="#info-fill"></use>\n' + '</svg>' +
-                '<button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close">' +
-                '</button>' + error + '</div>');
-        })
     })
 });

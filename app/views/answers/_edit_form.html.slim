@@ -9,5 +9,5 @@ td= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-an
   = f.fields_for :links do |l|
     = render 'links/link_fields', f: l
   .links
-    = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields', class: 'btn btn-outline-success btn-sm'
-  p= f.submit 'Save', class: 'btn btn-success btn-sm'
+    = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields', class: 'btn-action'
+  p= f.submit 'Save', class: 'btn-action'

@@ -16,6 +16,7 @@ require('jquery')
 require("../utilities/answers")
 require("../utilities/question")
 require("../utilities/vote")
+require("../utilities/comments")
 
 Rails.start()
 Turbolinks.start()

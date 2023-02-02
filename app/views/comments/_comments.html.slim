@@ -1,25 +1,9 @@
-div id="#{resource.class.to_s.downcase}-comment-#{resource.id}"
-  - resource.comments.each do |comment|
-    - cache comment do
-      .container-fluid
-        .card
-          .card-header
-            => distance_of_time_in_words(Time.now, resource.updated_at)
-            | ago
-          .card-body
-            .blockquote class="blockquote mb-0"
-              = comment.body
-              .footer class="blockquote-footer"
-                .small
-                  = comment.user.email
+.mt-4.me-4.small
+  div id="#{resource.class.to_s.downcase}-comment-#{resource.id}"
+    - resource.comments.each do |comment|
+      - cache comment do
+        p class="border-top small" = comment.body
 
-        / .text-muted
-        /   => comment.user.email
-        /   | :
-        / => comment.body
   - if can?(:create, Comment)
-
-= form_with model: [resource, Comment.new], url: polymorphic_path(resource, action: :comment), local: false do |f|
-  = f.text_area :body, class: 'form-control mt-2'
-
-  p= f.submit 'Add comment', class: 'btn btn-outline-success mt-2 btn-sm'
+    = link_to 'Add a comment', '#', class: 'add-comment btn-action', data: { resource_id: resource.id, resource_type: resource.class.to_s }
+    = render 'comments/form', resource: resource

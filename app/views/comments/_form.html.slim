@@ -1,0 +1,4 @@
+= form_with model: [resource, Comment.new], url: polymorphic_path(resource, action: :comment), local: false, class: 'hidden', html: { id: "add-comment-#{resource.class.to_s.downcase}-#{resource.id}" } do |f|
+  = f.text_area :body, class: 'form-control mt-2'
+
+  p= f.submit 'Add a comment', class: 'add-comment btn-action'
